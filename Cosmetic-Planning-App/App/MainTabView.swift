@@ -8,8 +8,32 @@
 import SwiftUI
 
 struct MainTabView: View {
+    @State private var isLoggedIn = true //SET THIS TO FALSE LATER
+    @State private var selectedTab: AppTab = .home
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Group {
+            if isLoggedIn {
+                TabView(selection: $selectedTab) {
+                    HomeView()
+                        .tag(AppTab.home)
+                        .tabItem{ Label("Home", systemImage: AppTab.home.symbol)}
+                    DiscoverView()
+                        .tag(AppTab.home)
+                        .tabItem{ Label("Discover", systemImage: AppTab.discover.symbol)}
+                    RoutinesView()
+                        .tag(AppTab.home)
+                        .tabItem{ Label("Routines", systemImage: AppTab.routines.symbol)}
+                    CalendarView()
+                        .tag(AppTab.home)
+                        .tabItem{ Label("Calendar", systemImage: AppTab.calendar.symbol)}
+                    ProfileView()
+                        .tag(AppTab.home)
+                        .tabItem{ Label("Profile", systemImage: AppTab.profile.symbol)}
+                }
+            } else {
+                LoginView()
+            }
+        }
     }
 }
 

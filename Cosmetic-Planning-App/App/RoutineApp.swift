@@ -1,18 +1,17 @@
 //
 //  RoutineApp.swift
-//  Cosmetic-Planning-App
+//  RoutineApp
 //
-//  Created by Siyu Liu on 10/12/26.
+//  Created by Siyu Liu on 10/3/26.
 //
 
 import SwiftUI
 
-struct RoutineApp: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+@main
+struct RoutineApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
     }
-}
-
-#Preview {
-    RoutineApp()
 }
