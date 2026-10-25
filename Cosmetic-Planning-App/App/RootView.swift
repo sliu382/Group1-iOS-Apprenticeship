@@ -16,7 +16,8 @@ struct RootView: View {
             if appState.isLoggedIn {
                 MainTabView()
             } else {
-                LoginView()
+                LoginView(onLogin: {}) //isLoggedIn = true
+                    .transition(.opacity)
             }
         }
         .environment(appState)
