@@ -41,15 +41,10 @@ struct LoginView: View {
                     .padding(.bottom, 70)
             
                     VStack(spacing: 18) {
-                        VStack(spacing: 8) {
-                            Text("WELCOME BACK")
-                                .font(.appSans(20, weight: .bold))
-                                .tracking(1.8)
-                                .foregroundStyle(AppColor.muted)
-                            //Text("Sign in to continue your personalized Care")
-                        }
-                        .multilineTextAlignment(.center)
-                        
+                        Text("WELCOME BACK")
+                            .font(.appSans(20, weight: .bold))
+                            .tracking(1.8)
+                            .foregroundStyle(AppColor.muted)
                         
                         /** LOGIN AREA */
                         LoginField(title: "Email", placeholder: "you@example.com", text: $email)

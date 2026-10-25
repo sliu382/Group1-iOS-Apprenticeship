@@ -26,7 +26,7 @@ struct MainTabView: View {
                     CalendarView()
                         .tag(AppTab.home)
                         .tabItem{ Label("Calendar", systemImage: AppTab.calendar.symbol)}
-                    ProfileView()
+                    ProfileView(onLogout: {isLoggedIn = false})
                         .tag(AppTab.home)
                         .tabItem{ Label("Profile", systemImage: AppTab.profile.symbol)}
                 }
