@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainTabView: View {
-    @State private var isLoggedIn = true //SET THIS TO FALSE LATER
+    @State private var isLoggedIn = false //SET THIS TO FALSE LATER
     @State private var selectedTab: AppTab = .home
     var body: some View {
         Group {
@@ -31,7 +31,8 @@ struct MainTabView: View {
                         .tabItem{ Label("Profile", systemImage: AppTab.profile.symbol)}
                 }
             } else {
-                LoginView()
+                LoginView(onLogin: {isLoggedIn = true})
+                    .transition(.opacity)
             }
         }
     }
