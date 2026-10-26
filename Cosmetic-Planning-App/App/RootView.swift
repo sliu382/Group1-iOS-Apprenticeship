@@ -10,16 +10,24 @@ import SwiftUI
 
 struct RootView: View {
     @State private var appState = AppState()
+    
+    private let authService = AuthService()
 
     var body: some View {
         Group {
             if appState.isLoggedIn {
                 MainTabView()
             } else {
-                LoginView(onLogin: {}) //isLoggedIn = true
+                LoginView(onLogin: {
+                    appState.isLoggedIn = true
+                })
                     .transition(.opacity)
             }
         }
         .environment(appState)
+        .task {
+            appState.isLoggedIn = await authService.hasValidSession()
+            appState.isLoading = false
+        }
     }
 }

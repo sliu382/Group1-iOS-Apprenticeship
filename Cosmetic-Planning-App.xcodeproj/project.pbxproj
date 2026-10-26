@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		DC2F540E308ECBA1005DFFC3 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = DC2F540D308ECBA1005DFFC3 /* Supabase */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		DC3AD1B230717DC100ED799A /* Cosmetic-Planning-App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cosmetic-Planning-App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,16 +40,25 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC2F540E308ECBA1005DFFC3 /* Supabase in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DC2F540C308ECBA1005DFFC3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		DC3AD1A930717DC100ED799A = {
 			isa = PBXGroup;
 			children = (
 				DC3AD1B430717DC100ED799A /* Cosmetic-Planning-App */,
+				DC2F540C308ECBA1005DFFC3 /* Frameworks */,
 				DC3AD1B330717DC100ED799A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -78,6 +91,7 @@
 			);
 			name = "Cosmetic-Planning-App";
 			packageProductDependencies = (
+				DC2F540D308ECBA1005DFFC3 /* Supabase */,
 			);
 			productName = "Cosmetic-Planning-App";
 			productReference = DC3AD1B230717DC100ED799A /* Cosmetic-Planning-App.app */;
@@ -107,6 +121,9 @@
 			);
 			mainGroup = DC3AD1A930717DC100ED799A;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				DC2F540B308ECA57005DFFC3 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DC3AD1B330717DC100ED799A /* Products */;
 			projectDirPath = "";
@@ -140,6 +157,8 @@
 /* Begin XCBuildConfiguration section */
 		DC3AD1BB30717DC200ED799A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = DC3AD1B430717DC100ED799A /* Cosmetic-Planning-App */;
+			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -201,6 +220,8 @@
 		};
 		DC3AD1BC30717DC200ED799A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = DC3AD1B430717DC100ED799A /* Cosmetic-Planning-App */;
+			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -360,6 +381,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DC2F540B308ECA57005DFFC3 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DC2F540D308ECBA1005DFFC3 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC2F540B308ECA57005DFFC3 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DC3AD1AA30717DC100ED799A /* Project object */;
 }
