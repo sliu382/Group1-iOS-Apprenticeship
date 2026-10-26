@@ -1,0 +1,5 @@
+# Local Supabase configuration
+Secrets.xcconfig
+
+# Keep the template
+!Secrets.example.xcconfig

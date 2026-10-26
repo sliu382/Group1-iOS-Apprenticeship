@@ -5,10 +5,11 @@
 //  Created by Siyu Liu on 10/12/26.
 //
 
-
+import SwiftUI
 import Observation
 
 @Observable
 class AppState {
     var isLoggedIn = false
+    var isLoading = true
 }
