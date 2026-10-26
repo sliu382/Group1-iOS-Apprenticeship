@@ -38,4 +38,21 @@ class RoutineViewModel {
             errorMessage = error.localizedDescription
         }
     }
+    
+    func deleteRoutine(id: UUID) async {
+        isLoading = true
+        defer { isLoading = false }
+
+        do {
+            try await service.deleteRoutine(id: id)
+
+            // Remove deleted routine from the UI
+            routines.removeAll { $0.id == id }
+
+            errorMessage = nil
+
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
 }
