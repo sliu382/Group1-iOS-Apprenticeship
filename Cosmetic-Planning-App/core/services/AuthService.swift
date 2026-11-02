@@ -13,10 +13,32 @@ struct AuthService {
     private let client = SupabaseManager.client
 
     // Create Account
-    func signUp(email: String, password: String) async throws {
+    func signUp(email: String, password: String, profile: ProfileDraft) async throws {
+        var metadata: [String: AnyJSON] = [
+            "first_name": .string(profile.firstName),
+            "last_name": .string(profile.lastName)
+        ]
+
+        // Add optional fields only if they're not empty
+        if !profile.skinType.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            metadata["skin_type"] = .string(profile.skinType)
+        }
+
+        if !profile.hairType.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            metadata["hair_type"] = .string(profile.hairType)
+        }
+
+        if !profile.topConcern.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            metadata["top_concern"] = .string(profile.topConcern)
+        }
+
+        if !profile.beautyStyle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            metadata["beauty_style"] = .string(profile.beautyStyle)
+        }
         try await client.auth.signUp(
             email: email,
-            password: password
+            password: password,
+            data: metadata
         )
     }
 

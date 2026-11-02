@@ -57,6 +57,9 @@ struct ProfileDraft {
     var topConcern = ""
     var beautyStyle = ""
 
+    // for new account registration
+    init() {}
+    
     init(from profile: UserProfile?) {
         firstName = profile?.firstName ?? ""
         lastName = profile?.lastName ?? ""

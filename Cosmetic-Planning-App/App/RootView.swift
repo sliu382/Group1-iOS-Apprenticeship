@@ -15,13 +15,19 @@ struct RootView: View {
 
     var body: some View {
         Group {
-            if appState.isLoggedIn {
+            if appState.isLoading {
+                ProgressView("Loading your routines...")
+            } else if appState.isLoggedIn {
                 MainTabView()
             } else {
-                LoginView(onLogin: {
-                    appState.isLoggedIn = true
-                })
-                    .transition(.opacity)
+                AuthContainerView(
+                    onAuthenticated: { 
+                        Task {
+                            appState.isLoggedIn = await authService.hasValidSession()
+                        }
+                    }
+                )
+                .transition(.opacity)
             }
         }
         .environment(appState)

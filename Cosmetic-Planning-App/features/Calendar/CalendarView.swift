@@ -24,33 +24,14 @@ struct CalendarView: View {
     @State private var showsAdd = false
     @State private var showsReminderEditor = false
 
-    @AppStorage("calendar.reminders.v1")
-    private var storedReminders = "[]"
+    @State private var reminderStore = CalendarReminderStore.shared
 
     private let calendar = Calendar.current
 
-    private var reminders: [CalendarReminder] {
-        guard
-            let data = storedReminders.data(using: .utf8),
-            let items = try? JSONDecoder().decode(
-                [CalendarReminder].self,
-                from: data
-            )
-        else {
-            return []
-        }
-
-        return items
-    }
-
     private var selectedReminders: [CalendarReminder] {
-        reminders
-            .filter {
-                calendar.isDate($0.date, inSameDayAs: selectedDate)
-            }
-            .sorted {
-                $0.date < $1.date
-            }
+        reminderStore.reminders
+            .filter { calendar.isDate($0.date, inSameDayAs: selectedDate) }
+            .sorted { $0.date < $1.date }
     }
 
     private var remindersTitle: String {
@@ -254,7 +235,7 @@ struct CalendarView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .sheet(isPresented: $showsReminderEditor) {
             CalendarReminderEditor(initialDate: selectedDate) { reminder in
-                saveReminders(reminders + [reminder])
+                reminderStore.add(reminder)
                 selectedDate = reminder.date
             }
             .presentationDetents([.medium, .large])
@@ -266,14 +247,7 @@ struct CalendarView: View {
     private func reminderRow(_ reminder: CalendarReminder) -> some View {
         HStack(spacing: 12) {
             Button {
-                var items = reminders
-
-                if let index = items.firstIndex(
-                    where: { $0.id == reminder.id }
-                ) {
-                    items[index].isComplete.toggle()
-                    saveReminders(items)
-                }
+                reminderStore.toggleComplete(id: reminder.id)
             } label: {
                 Image(
                     systemName: reminder.isComplete
@@ -308,19 +282,6 @@ struct CalendarView: View {
             Spacer(minLength: 0)
         }
         .padding(16)
-    }
-
-    // MARK: - Reminder Storage
-
-    private func saveReminders(_ items: [CalendarReminder]) {
-        guard
-            let data = try? JSONEncoder().encode(items),
-            let value = String(data: data, encoding: .utf8)
-        else {
-            return
-        }
-
-        storedReminders = value
     }
 
     // MARK: - Date Navigation
@@ -711,15 +672,6 @@ private struct TimeLabel: View {
                 alignment: .topTrailing
             )
     }
-}
-
-// MARK: - Reminder Model
-
-private struct CalendarReminder: Identifiable, Codable {
-    var id = UUID()
-    var title: String
-    var date: Date
-    var isComplete = false
 }
 
 // MARK: - Create Reminder Sheet
