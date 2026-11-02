@@ -9,7 +9,7 @@ import SwiftUI
 import Observation
 
 @Observable
-class AppState {
+final class AppState {
     var isLoggedIn = false
     var isLoading = true
 }
