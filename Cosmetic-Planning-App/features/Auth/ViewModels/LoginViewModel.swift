@@ -5,8 +5,6 @@
 //  Created by Siyu Liu on 11/1/26.
 //
 
-
-
 import Foundation
 import Combine
 
@@ -20,6 +18,10 @@ final class LoginViewModel: ObservableObject {
     // MARK: - UI State
     @Published var isLoading = false
     @Published var errorMessage: String?
+
+    // Password Reset State
+    @Published var isResettingPassword = false
+    @Published var showResetConfirmation = false
 
     private let authService = AuthService()
 
@@ -53,6 +55,36 @@ final class LoginViewModel: ObservableObject {
         } catch {
             errorMessage = error.localizedDescription
             return false
+        }
+    }
+
+    // MARK: - Reset Password
+    func resetPassword() async {
+        guard !isResettingPassword else { return }
+
+        let cleanedEmail = email.trimmingCharacters(
+            in: .whitespacesAndNewlines
+        )
+
+        guard !cleanedEmail.isEmpty else {
+            errorMessage = "Please enter your email address."
+            return
+        }
+
+        isResettingPassword = true
+        errorMessage = nil
+
+        defer { isResettingPassword = false }
+
+        do {
+            try await authService.resetPassword(
+                email: cleanedEmail
+            )
+
+            showResetConfirmation = true
+
+        } catch {
+            errorMessage = error.localizedDescription
         }
     }
 }

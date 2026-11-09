@@ -64,5 +64,25 @@ struct AuthService {
             return false
         }
     }
+    
+    // Change Password
+    func changePassword(newPassword: String) async throws {
+        try await client.auth.update(
+            user: UserAttributes(password: newPassword)
+        )
+    }
+    
+    // MARK: - Reset Password
+    func resetPassword(email: String) async throws {
+        try await client.auth.resetPasswordForEmail(
+            email,
+            redirectTo: URL(string: "cura://reset-password")
+        )
+    }
+    
+    // MARK: - Handle Password Recovery
+    func handlePasswordRecovery(url: URL) async throws {
+        try await client.auth.session(from: url)
+    }
 }
 
