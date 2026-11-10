@@ -15,15 +15,7 @@ struct LoginView: View {
     
     var body: some View {
         ZStack {
-            LinearGradient(
-                colors: [
-                    Color(hex: 0xFBF7F2),
-                    Color(hex: 0xF7EEEC)
-                ],
-                startPoint: .topLeading,
-                endPoint: .topTrailing
-            )
-            .ignoresSafeArea()
+            AppBackground()
 
             ScrollView {
                 VStack(spacing: 0) {
@@ -67,12 +59,13 @@ struct LoginView: View {
                     y: 10
                 )
 
-            Text("APP NAME HERE")
-                .font(.appSerif(30))
+            Text("CURA")
+                .font(.appSerif( 45))
                 .tracking(5)
+                .foregroundStyle(AppColor.ink)
         }
         .padding(.top, 45)
-        .padding(.bottom, 70)
+        .padding(.bottom, 45)
     }
     // MARK: - LoginCard
     private var loginCard: some View {
@@ -142,7 +135,7 @@ struct LoginView: View {
                 }
             }
             .font(.appSans(12, weight:.medium))
-            .foregroundStyle(Color(hex: 0x815C70))
+            .foregroundStyle(AppColor.ink)
             .disabled(viewModel.isResettingPassword)
         }
     }
@@ -173,7 +166,7 @@ struct LoginView: View {
             }
             .foregroundStyle(.white)
             .frame(maxWidth: .infinity, minHeight: 50)
-            .background(Color(hex: 0x4C3C48))
+            .background(AppColor.accent)
             .clipShape(
                 RoundedRectangle(
                     cornerRadius: 14,
@@ -194,7 +187,7 @@ struct LoginView: View {
             Button("Create an account") {
                 onSignUp()
             }
-            .foregroundStyle(Color(hex: 0x8B6074))
+            .foregroundStyle(AppColor.ink)
             .disabled(viewModel.isLoading)
         }
         .font(.appSans(12, weight: .medium))
