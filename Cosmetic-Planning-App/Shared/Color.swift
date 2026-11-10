@@ -18,6 +18,8 @@ enum AppColor {
     static let mint = Color(hex: 0xDBE7DC)
     static let line = Color(hex: 0xEBE5E2)
     static let accent = Color(hex: 0x6C5362)
+    static let backgroundCream = Color(hex: 0xFBF7F2)
+    static let backgroundPink = Color(hex: 0xF7EEEC)
 }
 
 // Creates a new constructor that allows hex values to be inputted as an argument

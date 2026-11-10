@@ -16,15 +16,7 @@ struct SignUpView: View {
     var body: some View {
         ZStack {
             // MARK: - Background
-            LinearGradient(
-                colors: [
-                    Color(hex: 0xFBF7F2),
-                    Color(hex: 0xF7EEEC)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
+            AppBackground()
 
             ScrollView {
                 VStack(spacing: 0) {
