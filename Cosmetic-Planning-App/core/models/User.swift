@@ -12,6 +12,7 @@ struct UserProfile: Codable, Identifiable {
     let id: UUID
     var firstName: String?
     var lastName: String?
+    var username: String?
     var skinType: String?
     var hairType: String?
     var topConcern: String?
@@ -22,6 +23,7 @@ struct UserProfile: Codable, Identifiable {
         case id
         case firstName = "first_name"
         case lastName = "last_name"
+        case username
         case skinType = "skin_type"
         case hairType = "hair_type"
         case topConcern = "top_concern"
@@ -52,6 +54,7 @@ struct UserProfile: Codable, Identifiable {
 struct ProfileDraft {
     var firstName = ""
     var lastName = ""
+    var username = ""
     var skinType = ""
     var hairType = ""
     var topConcern = ""
@@ -63,6 +66,7 @@ struct ProfileDraft {
     init(from profile: UserProfile?) {
         firstName = profile?.firstName ?? ""
         lastName = profile?.lastName ?? ""
+        username = profile?.username ?? ""
         skinType = profile?.skinType ?? ""
         hairType = profile?.hairType ?? ""
         topConcern = profile?.topConcern ?? ""
