@@ -14,6 +14,10 @@ struct RoutineApp: App {
 
     private let authService = AuthService()
 
+    init() {
+        NotificationScheduler.shared.configure()
+    }
+
     var body: some Scene {
         WindowGroup {
             RootView()
