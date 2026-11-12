@@ -12,6 +12,7 @@ struct CreatePostSheet: View {
     @Environment(\.dismiss) private var dismiss
     @State private var draft = NewPostDraft()
     @State private var isPosting = false
+    @State private var showsProductSearch = false
 
     var body: some View {
         NavigationStack {
@@ -55,6 +56,12 @@ struct CreatePostSheet: View {
                     }
                 case .recommendation:
                     Section("Product") {
+                        Button {
+                            showsProductSearch = true
+                        } label: {
+                            Label("Search products", systemImage: "magnifyingglass")
+                                .foregroundStyle(AppColor.accent)
+                        }
                         TextField("Product name", text: $draft.productName)
                         TextField("Price (optional, e.g. 22)", text: $draft.productPrice)
                             .keyboardType(.decimalPad)
@@ -90,6 +97,11 @@ struct CreatePostSheet: View {
                 }
             }
             .task { await viewModel.loadMyRoutines() }
+            .sheet(isPresented: $showsProductSearch) {
+                ProductSearchView { product in
+                    draft.fill(from: product)
+                }
+            }
         }
     }
 }

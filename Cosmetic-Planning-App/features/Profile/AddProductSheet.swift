@@ -7,40 +7,44 @@ import SwiftUI
 import PhotosUI
 
 struct AddProductSheet: View {
-    let onSave: (String, String, Data?) async -> Void
+    let onSave: (NewProductDraft) async -> Void
     
     @Environment(\.dismiss) private var dismiss
-    @State private var name = ""
-    @State private var status = Product.statuses[0]
+    @State private var draft = NewProductDraft()
     @State private var photoItem: PhotosPickerItem?
     @State private var photo: UIImage?
+    @State private var showsSearch = false
     @State private var isSaving = false
     
     var body: some View {
         NavigationStack {
             Form {
+                /** Search the catalog to fill everything in */
+                Section {
+                    Button {
+                        showsSearch = true
+                    } label: {
+                        Label("Search products", systemImage: "magnifyingglass")
+                            .font(.appSans(13, weight: .semibold))
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity, minHeight: 44)
+                            .background(AppColor.accent, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                    }
+                    .buttonStyle(.plain)
+                } footer: {
+                    Text("Find it in the product database, or fill it in yourself below.")
+                }
+                .listRowBackground(Color.clear)
+                .listRowInsets(EdgeInsets())
+                
+                /** Photo: one you pick, or the catalog's */
                 Section {
                     PhotosPicker(selection: $photoItem, matching: .images) {
                         HStack {
                             Spacer()
-                            if let photo {
-                                Image(uiImage: photo)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 140, height: 155)
-                                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                            } else {
-                                VStack(spacing: 6) {
-                                    Image(systemName: "photo.badge.plus")
-                                        .font(.system(size: 26))
-                                    Text("Add photo")
-                                        .font(.appSans(11))
-                                }
-                                .foregroundStyle(AppColor.accent)
+                            photoPreview
                                 .frame(width: 140, height: 155)
-                                .background(AppColor.rose.opacity(0.4))
                                 .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                            }
                             Spacer()
                         }
                     }
@@ -49,8 +53,9 @@ struct AddProductSheet: View {
                 .listRowBackground(Color.clear)
                 
                 Section("Product") {
-                    TextField("Name (e.g. Barrier Bloom)", text: $name)
-                    Picker("Status", selection: $status) {
+                    TextField("Name (e.g. Barrier Bloom)", text: $draft.name)
+                    TextField("Brand (optional)", text: $draft.brand)
+                    Picker("Status", selection: $draft.status) {
                         ForEach(Product.statuses, id: \.self, content: Text.init)
                     }
                 }
@@ -68,17 +73,21 @@ struct AddProductSheet: View {
                         Button("Save") {
                             Task {
                                 isSaving = true
-                                await onSave(
-                                    name.trimmingCharacters(in: .whitespaces),
-                                    status,
-                                    photo.flatMap(compressed)
-                                )
+                                draft.photoData = photo.flatMap(compressed)
+                                await onSave(draft)
                                 isSaving = false
                                 dismiss()
                             }
                         }
-                        .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty)
+                        .disabled(draft.name.trimmingCharacters(in: .whitespaces).isEmpty)
                     }
+                }
+            }
+            .sheet(isPresented: $showsSearch) {
+                ProductSearchView { product in
+                    draft.fill(from: product)
+                    photo = nil
+                    photoItem = nil
                 }
             }
             .onChange(of: photoItem) {
@@ -88,6 +97,33 @@ struct AddProductSheet: View {
                     }
                 }
             }
+        }
+    }
+    
+    @ViewBuilder
+    private var photoPreview: some View {
+        if let photo {
+            Image(uiImage: photo)
+                .resizable()
+                .scaledToFill()
+        } else if let urlString = draft.catalogImageUrl, let url = URL(string: urlString) {
+            AsyncImage(url: url) { image in
+                image.resizable().scaledToFit().padding(8)
+            } placeholder: {
+                ProgressView()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(.white)
+        } else {
+            VStack(spacing: 6) {
+                Image(systemName: "photo.badge.plus")
+                    .font(.system(size: 26))
+                Text("Add photo")
+                    .font(.appSans(11))
+            }
+            .foregroundStyle(AppColor.accent)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(AppColor.rose.opacity(0.4))
         }
     }
     
@@ -104,5 +140,5 @@ struct AddProductSheet: View {
 }
 
 #Preview {
-    AddProductSheet { _, _, _ in }
+    AddProductSheet { _ in }
 }

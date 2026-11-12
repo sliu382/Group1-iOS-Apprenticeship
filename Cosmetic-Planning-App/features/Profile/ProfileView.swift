@@ -108,8 +108,8 @@ struct ProfileView: View {
             await viewModel.loadStats()
         }
         .sheet(isPresented: $isAddingProduct) {
-            AddProductSheet { name, status, imageData in
-                await viewModel.addProduct(name: name, status: status, imageData: imageData)
+            AddProductSheet { draft in
+                await viewModel.addProduct(draft)
             }
         }
         .sheet(isPresented: $isEditing) {
@@ -257,8 +257,9 @@ struct ProductCard: View {
                 .font(.appSans(10, weight: .semibold))
                 .foregroundStyle(AppColor.ink)
                 .lineLimit(1)
-            Text(product.status)
+            Text([product.brand, product.status].compactMap { $0 }.joined(separator: " · "))
                 .font(.appSans(8))
+                .lineLimit(1)
                 .foregroundStyle(AppColor.muted)
         }
     }

@@ -26,14 +26,15 @@ struct ProductService {
         return products
     }
 
-    // CREATE: Add a product, uploading its photo first if there is one
-    func addProduct(name: String, status: String, imageData: Data?) async throws {
+    // CREATE: Add a product. Uploads the user's photo if they picked one;
+    // otherwise uses the catalog photo URL (if it came from product search).
+    func addProduct(_ draft: NewProductDraft) async throws {
         let session = try await supabase.auth.session
         let userId = session.user.id
         let productId = UUID()
 
-        var imageUrl: String?
-        if let imageData {
+        var imageUrl = draft.catalogImageUrl
+        if let imageData = draft.photoData {
             // Stored as <user id>/<product id>.jpg so storage rules can check ownership
             let path = imagePath(userId: userId, productId: productId)
             try await supabase.storage
@@ -46,13 +47,24 @@ struct ProductService {
             let id: UUID
             let user_id: UUID
             let name: String
+            let brand: String?
+            let barcode: String?
             let status: String
             let image_url: String?
         }
 
+        let brand = draft.brand.trimmingCharacters(in: .whitespaces)
         try await supabase
             .from("products")
-            .insert(NewProduct(id: productId, user_id: userId, name: name, status: status, image_url: imageUrl))
+            .insert(NewProduct(
+                id: productId,
+                user_id: userId,
+                name: draft.name.trimmingCharacters(in: .whitespaces),
+                brand: brand.isEmpty ? nil : brand,
+                barcode: draft.barcode,
+                status: draft.status,
+                image_url: imageUrl
+            ))
             .execute()
     }
 

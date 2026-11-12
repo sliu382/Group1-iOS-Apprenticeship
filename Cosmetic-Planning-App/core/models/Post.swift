@@ -28,6 +28,9 @@ struct Post: Decodable, Identifiable {
     let routineId: UUID?
     let productName: String?
     let productPrice: String?
+    let productBrand: String?
+    let productBarcode: String?
+    let productImageUrl: String?
     let createdAt: Date
     let authorName: String
     let authorUsername: String
@@ -43,6 +46,9 @@ struct Post: Decodable, Identifiable {
         case routineId = "routine_id"
         case productName = "product_name"
         case productPrice = "product_price"
+        case productBrand = "product_brand"
+        case productBarcode = "product_barcode"
+        case productImageUrl = "product_image_url"
         case createdAt = "created_at"
         case authorName = "author_name"
         case authorUsername = "author_username"
@@ -102,6 +108,17 @@ struct NewPostDraft {
     var routineId: UUID?
     var productName = ""
     var productPrice = ""
+    // Filled in when the product is picked from product search
+    var productBrand: String?
+    var productBarcode: String?
+    var productImageUrl: String?
+
+    mutating func fill(from product: CatalogProduct) {
+        productName = product.displayName
+        productBrand = product.brand
+        productBarcode = product.code
+        productImageUrl = product.imageUrl
+    }
 
     var isValid: Bool {
         guard !title.trimmingCharacters(in: .whitespaces).isEmpty else { return false }
@@ -123,5 +140,46 @@ extension Date {
         case ..<604800: return "\(seconds / 86400) d"
         default: return formatted(.dateTime.month(.abbreviated).day())
         }
+    }
+}
+
+// Something that can be added to the shelf from Discover:
+// a product recommendation post, or a product search result
+enum ShelfCandidate: Identifiable {
+    case post(Post)
+    case catalog(CatalogProduct)
+
+    var id: String {
+        switch self {
+        case .post(let post): return "post-\(post.id)"
+        case .catalog(let product): return "catalog-\(product.code)"
+        }
+    }
+
+    var name: String {
+        switch self {
+        case .post(let post): return post.productName ?? "this product"
+        case .catalog(let product): return product.displayName
+        }
+    }
+
+    func draft(status: String) -> NewProductDraft {
+        var draft = NewProductDraft()
+        switch self {
+        case .post(let post):
+            // The post's name already includes the brand; strip it back off if we have it
+            var name = post.productName ?? ""
+            if let brand = post.productBrand, name.lowercased().hasPrefix(brand.lowercased() + " ") {
+                name = String(name.dropFirst(brand.count + 1))
+            }
+            draft.name = name
+            draft.brand = post.productBrand ?? ""
+            draft.barcode = post.productBarcode
+            draft.catalogImageUrl = post.productImageUrl
+        case .catalog(let product):
+            draft.fill(from: product)
+        }
+        draft.status = status
+        return draft
     }
 }

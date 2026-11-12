@@ -16,6 +16,7 @@ struct PostDetailView: View {
     @State private var isSending = false
     @State private var errorMessage: String?
     @State private var showsDeleteConfirm = false
+    @State private var shelfCandidate: ShelfCandidate?
     @FocusState private var commentFocused: Bool
 
     private let service = PostService()
@@ -35,6 +36,8 @@ struct PostDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.visible, for: .navigationBar)
         .task { await loadComments() }
+        .addToShelfDialog($shelfCandidate, viewModel: viewModel)
+        .shelfToast(viewModel)
     }
 
     private func content(_ post: Post) -> some View {
@@ -44,6 +47,8 @@ struct PostDetailView: View {
                     PostContent(
                         post: post,
                         isMine: viewModel.isMine(post),
+                        isOnShelf: viewModel.isOnShelf(post),
+                        onAddToShelf: { shelfCandidate = .post(post) },
                         onSave: { Task { await viewModel.toggleSave(post) } },
                         onDelete: { showsDeleteConfirm = true }
                     )

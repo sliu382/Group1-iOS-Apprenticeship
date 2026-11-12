@@ -11,6 +11,9 @@ struct DiscoverView: View {
     @State private var viewModel = DiscoverViewModel()
     @State private var showsCreatePost = false
     @State private var postToDelete: Post?
+    @State private var shelfCandidate: ShelfCandidate?
+    @State private var showsProductSearch = false
+    @State private var pickedProduct: CatalogProduct?
 
     var body: some View {
         NavigationStack {
@@ -21,6 +24,9 @@ struct DiscoverView: View {
                     }
 
                     searchBar
+                    if !viewModel.query.trimmingCharacters(in: .whitespaces).isEmpty {
+                        productSearchRow
+                    }
                     categoryChips
 
                     if let errorMessage = viewModel.errorMessage {
@@ -41,6 +47,19 @@ struct DiscoverView: View {
             .sheet(isPresented: $showsCreatePost) {
                 CreatePostSheet(viewModel: viewModel)
             }
+            .sheet(isPresented: $showsProductSearch, onDismiss: {
+                // Ask In rotation / Backup once the search sheet has closed
+                if let product = pickedProduct {
+                    shelfCandidate = .catalog(product)
+                    pickedProduct = nil
+                }
+            }) {
+                ProductSearchView(initialQuery: viewModel.query.trimmingCharacters(in: .whitespaces)) { product in
+                    pickedProduct = product
+                }
+            }
+            .addToShelfDialog($shelfCandidate, viewModel: viewModel)
+            .shelfToast(viewModel)
             .confirmationDialog(
                 "Delete this post?",
                 isPresented: Binding(get: { postToDelete != nil }, set: { if !$0 { postToDelete = nil } }),
@@ -92,6 +111,32 @@ struct DiscoverView: View {
         .padding(.horizontal, 13)
         .frame(height: 48)
         .modifier(RectangularCard(radius: 15, color: .white))
+    }
+
+    /** "Find “cerave” in products" -> catalog search -> add to shelf */
+    private var productSearchRow: some View {
+        Button {
+            showsProductSearch = true
+        } label: {
+            HStack(spacing: 10) {
+                Image(systemName: "bag")
+                    .font(.system(size: 14))
+                    .foregroundStyle(Color(hex: 0xA0614A))
+                    .frame(width: 32, height: 32)
+                    .background(AppColor.peach.opacity(0.7), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+                Text("Find “\(viewModel.query.trimmingCharacters(in: .whitespaces))” in products")
+                    .font(.appSans(12, weight: .medium))
+                    .foregroundStyle(AppColor.ink)
+                    .lineLimit(1)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(AppColor.muted)
+            }
+            .padding(10)
+            .modifier(RectangularCard(radius: 15))
+        }
+        .buttonStyle(.plain)
     }
 
     /** For you / Skincare / Hair / Makeup */
@@ -150,6 +195,8 @@ struct DiscoverView: View {
                     PostCard(
                         post: post,
                         isMine: viewModel.isMine(post),
+                        isOnShelf: viewModel.isOnShelf(post),
+                        onAddToShelf: { shelfCandidate = .post(post) },
                         onLike: { Task { await viewModel.toggleLike(post) } },
                         onSave: { Task { await viewModel.toggleSave(post) } },
                         onDelete: { postToDelete = post }

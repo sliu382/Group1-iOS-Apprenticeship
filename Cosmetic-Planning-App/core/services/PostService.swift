@@ -38,6 +38,9 @@ struct PostService {
             let routine_id: UUID?
             let product_name: String?
             let product_price: String?
+            let product_brand: String?
+            let product_barcode: String?
+            let product_image_url: String?
         }
 
         func clean(_ value: String) -> String? {
@@ -54,7 +57,10 @@ struct PostService {
             body: clean(draft.body),
             routine_id: isRoutine ? draft.routineId : nil,
             product_name: isRoutine ? nil : clean(draft.productName),
-            product_price: isRoutine ? nil : clean(draft.productPrice)
+            product_price: isRoutine ? nil : clean(draft.productPrice),
+            product_brand: isRoutine ? nil : draft.productBrand,
+            product_barcode: isRoutine ? nil : draft.productBarcode,
+            product_image_url: isRoutine ? nil : draft.productImageUrl
         )
 
         try await supabase.from("posts").insert(post).execute()

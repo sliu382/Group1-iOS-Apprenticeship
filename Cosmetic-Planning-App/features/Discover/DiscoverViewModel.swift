@@ -30,8 +30,13 @@ class DiscoverViewModel {
     // For the Create Post sheet
     var myRoutines: [Routine] = []
 
+    // For "Add to my shelf"
+    var myProducts: [Product] = []
+    var toastMessage: String?
+
     private let service = PostService()
     private let routineService = RoutineService()
+    private let productService = ProductService()
 
     var hasActiveFilters: Bool { kind != nil || sort != .newest || savedOnly }
 
@@ -61,7 +66,28 @@ class DiscoverViewModel {
         do {
             currentUserId = try await service.currentUserId()
             posts = try await service.fetchFeed()
+            myProducts = (try? await productService.fetchProducts()) ?? myProducts
             errorMessage = nil
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    // Already on my shelf? Matches by barcode, or by name if there's no barcode
+    func isOnShelf(_ post: Post) -> Bool {
+        guard post.kind == .recommendation, let name = post.productName?.lowercased() else { return false }
+        return myProducts.contains { product in
+            if let barcode = post.productBarcode, let mine = product.barcode { return barcode == mine }
+            let fullName = [product.brand, product.name].compactMap { $0 }.joined(separator: " ").lowercased()
+            return product.name.lowercased() == name || fullName == name
+        }
+    }
+
+    func addToShelf(_ candidate: ShelfCandidate, status: String) async {
+        do {
+            try await productService.addProduct(candidate.draft(status: status))
+            myProducts = (try? await productService.fetchProducts()) ?? myProducts
+            toastMessage = "Added to your shelf"
         } catch {
             errorMessage = error.localizedDescription
         }

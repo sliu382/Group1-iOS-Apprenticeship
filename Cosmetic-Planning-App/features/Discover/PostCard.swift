@@ -9,6 +9,8 @@ import SwiftUI
 struct PostCard<Detail: View>: View {
     let post: Post
     let isMine: Bool
+    let isOnShelf: Bool
+    let onAddToShelf: () -> Void
     let onLike: () -> Void
     let onSave: () -> Void
     let onDelete: () -> Void
@@ -16,7 +18,8 @@ struct PostCard<Detail: View>: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            PostContent(post: post, isMine: isMine, onSave: onSave, onDelete: onDelete)
+            PostContent(post: post, isMine: isMine, isOnShelf: isOnShelf,
+                        onAddToShelf: onAddToShelf, onSave: onSave, onDelete: onDelete)
 
             HStack(spacing: 18) {
                 LikeButton(post: post, action: onLike)
@@ -56,6 +59,8 @@ struct PostCard<Detail: View>: View {
 struct PostContent: View {
     let post: Post
     let isMine: Bool
+    let isOnShelf: Bool
+    let onAddToShelf: () -> Void
     let onSave: () -> Void
     let onDelete: () -> Void
 
@@ -155,29 +160,62 @@ struct PostContent: View {
         }
     }
 
-    /** "PRODUCT RECOMMENDATION — Mallow Petal Tint Balm · $22" */
+    /** "PRODUCT RECOMMENDATION — Mallow Petal Tint Balm · $22". Tap to add it to your shelf. */
     private var productBox: some View {
-        HStack(spacing: 14) {
+        Button(action: onAddToShelf) {
+            HStack(spacing: 14) {
+                productImage
+                    .frame(width: 46, height: 46)
+                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("PRODUCT RECOMMENDATION")
+                        .font(.appSans(9))
+                        .tracking(0.8)
+                        .foregroundStyle(Color(hex: 0xA0614A))
+                    Text(post.productLine)
+                        .font(.appSans(12, weight: .semibold))
+                        .foregroundStyle(AppColor.ink)
+                        .multilineTextAlignment(.leading)
+                }
+                Spacer()
+                if isOnShelf {
+                    Label("On shelf", systemImage: "checkmark")
+                        .font(.appSans(10, weight: .semibold))
+                        .foregroundStyle(AppColor.muted)
+                } else {
+                    Label("Shelf", systemImage: "plus")
+                        .font(.appSans(10, weight: .semibold))
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 6)
+                        .background(Color(hex: 0xA0614A), in: Capsule())
+                }
+            }
+            .padding(12)
+            .background(Color(hex: 0xFAF0EE), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+            .overlay {
+                RoundedRectangle(cornerRadius: 18, style: .continuous).stroke(AppColor.line, lineWidth: 1)
+            }
+        }
+        .buttonStyle(.plain)
+        .disabled(isOnShelf)
+    }
+
+    @ViewBuilder
+    private var productImage: some View {
+        if let urlString = post.productImageUrl, let url = URL(string: urlString) {
+            AsyncImage(url: url) { image in
+                image.resizable().scaledToFit().padding(4)
+            } placeholder: {
+                ProgressView()
+            }
+            .background(.white)
+        } else {
             Image(systemName: "bag")
                 .font(.system(size: 18))
                 .foregroundStyle(Color(hex: 0xA0614A))
-                .frame(width: 46, height: 46)
-                .background(AppColor.peach.opacity(0.7), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
-            VStack(alignment: .leading, spacing: 4) {
-                Text("PRODUCT RECOMMENDATION")
-                    .font(.appSans(9))
-                    .tracking(0.8)
-                    .foregroundStyle(Color(hex: 0xA0614A))
-                Text(post.productLine)
-                    .font(.appSans(12, weight: .semibold))
-                    .foregroundStyle(AppColor.ink)
-            }
-            Spacer()
-        }
-        .padding(12)
-        .background(Color(hex: 0xFAF0EE), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
-        .overlay {
-            RoundedRectangle(cornerRadius: 18, style: .continuous).stroke(AppColor.line, lineWidth: 1)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(AppColor.peach.opacity(0.7))
         }
     }
 }

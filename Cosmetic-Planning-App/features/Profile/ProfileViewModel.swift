@@ -51,9 +51,9 @@ class ProfileViewModel {
         }
     }
 
-    func addProduct(name: String, status: String, imageData: Data?) async {
+    func addProduct(_ draft: NewProductDraft) async {
         do {
-            try await productService.addProduct(name: name, status: status, imageData: imageData)
+            try await productService.addProduct(draft)
             await loadProducts()
         } catch {
             errorMessage = error.localizedDescription
