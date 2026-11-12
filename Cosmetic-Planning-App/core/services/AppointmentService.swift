@@ -33,6 +33,10 @@ final class AppointmentService {
         let date: Date
         let location: String?
         let notes: String?
+        let end_date: Date?
+        let is_all_day: Bool
+        let notify_minutes_before: Int?
+        let recurrence: Recurrence?
         let is_complete: Bool
     }
 
@@ -41,6 +45,10 @@ final class AppointmentService {
         let date: Date
         let location: String?
         let notes: String?
+        let end_date: Date?
+        let is_all_day: Bool
+        let notify_minutes_before: Int?
+        let recurrence: Recurrence?
         let is_complete: Bool
         let updated_at: Date
     }
@@ -53,13 +61,14 @@ final class AppointmentService {
 
         let fetched: [Appointment] = try await supabase
             .from("appointments")
-            .select("id, title, date, location, notes, is_complete")
+            .select("id, title, date, location, notes, end_date, is_all_day, notify_minutes_before, recurrence, is_complete")
             .eq("user_id", value: session.user.id)
             .order("date", ascending: true)
             .execute()
             .value
 
         appointments = fetched
+        await rescheduleAllNotifications()
         return fetched
     }
 
@@ -75,6 +84,10 @@ final class AppointmentService {
             date: appointment.date,
             location: appointment.location,
             notes: appointment.notes,
+            end_date: appointment.endDate,
+            is_all_day: appointment.isAllDay,
+            notify_minutes_before: appointment.notifyMinutesBefore,
+            recurrence: appointment.recurrence,
             is_complete: appointment.isComplete
         )
 
@@ -96,6 +109,10 @@ final class AppointmentService {
             date: appointment.date,
             location: appointment.location,
             notes: appointment.notes,
+            end_date: appointment.endDate,
+            is_all_day: appointment.isAllDay,
+            notify_minutes_before: appointment.notifyMinutesBefore,
+            recurrence: appointment.recurrence,
             is_complete: appointment.isComplete,
             updated_at: Date()
         )
@@ -122,21 +139,52 @@ final class AppointmentService {
             .eq("user_id", value: session.user.id)
             .execute()
 
+        NotificationScheduler.shared.cancelAll(for: id)
         try await fetchAppointments()
+    }
+
+    // MARK: - Notifications
+
+    /// Runs after every fetch, so adds, edits and new launches all
+    /// end up with the right notifications queued.
+    private func rescheduleAllNotifications() async {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let horizon = calendar.date(byAdding: .day, value: 60, to: today) ?? today
+
+        for appointment in appointments {
+            guard !appointment.isComplete else {
+                NotificationScheduler.shared.cancelAll(for: appointment.id)
+                continue
+            }
+
+            let planned = appointment
+                .occurrences(from: today, to: horizon)
+                .compactMap { occurrence -> PlannedNotification? in
+                    guard let fireDate = occurrence.notificationDate else { return nil }
+
+                    var body = occurrence.isAllDay ? occurrence.dateText : occurrence.timeText
+                    if let location = occurrence.location, !location.isEmpty {
+                        body += " · \(location)"
+                    }
+                    return PlannedNotification(fireDate: fireDate, title: occurrence.title, body: body)
+                }
+
+            await NotificationScheduler.shared.replaceNotifications(for: appointment.id, with: planned)
+        }
     }
 
     // MARK: - Today's Appointments
 
     var todayAppointments: [Appointment] {
         appointments
-            .filter {
-                Calendar.current.isDateInToday($0.date)
-            }
+            .compactMap { $0.occurrence(on: Date()) }
             .sorted { $0.date < $1.date }
     }
 
     // MARK: - Upcoming Appointments
 
+    /// The next occurrence of each appointment, starting tomorrow.
     var upcomingAppointments: [Appointment] {
         let calendar = Calendar.current
 
@@ -149,7 +197,7 @@ final class AppointmentService {
         }
 
         return appointments
-            .filter { $0.date >= tomorrow }
+            .compactMap { $0.nextOccurrence(onOrAfter: tomorrow) }
             .sorted { $0.date < $1.date }
     }
 
