@@ -1,6 +1,6 @@
 //
 //  AddToCalendarSheet.swift
-//  Cosmetic-Planning-App
+//  CURA
 //
 //  The sheet behind the calendar's + button. Step 1: choose Routine reminder
 //  or Appointment. Step 2: a Google Calendar–style form for that model.

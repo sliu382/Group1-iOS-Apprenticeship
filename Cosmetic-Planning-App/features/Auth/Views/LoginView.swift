@@ -1,6 +1,6 @@
 //
 //  LoginView.swift
-//  Cosmetic-Planning-App
+//  CURA
 //
 //  Created by Siyu Liu on 10/12/26.
 //

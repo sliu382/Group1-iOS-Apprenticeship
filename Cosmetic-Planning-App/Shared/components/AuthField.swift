@@ -1,6 +1,6 @@
 //
 //  AuthField.swift
-//  Cosmetic-Planning-App
+//  CURA
 //
 //  Created by Siyu Liu on 11/1/26.
 //
@@ -80,3 +80,4 @@ private struct AuthFieldPreview: View {
         .background(Color(hex: 0xFBF7F2))
     }
 }
+

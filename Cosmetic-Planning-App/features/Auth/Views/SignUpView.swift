@@ -1,6 +1,6 @@
 //
 //  SignUpView.swift
-//  Cosmetic-Planning-App
+//  CURA
 //
 //  Created by Siyu Liu on 10/12/26.
 //
@@ -40,7 +40,7 @@ struct SignUpView: View {
                                 y: 10
                             )
 
-                        Text("APP NAME HERE")
+                        Text("CURA")
                             .font(.appSerif(30))
                             .tracking(5)
                     }
