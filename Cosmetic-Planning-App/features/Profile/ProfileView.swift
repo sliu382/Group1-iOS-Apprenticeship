@@ -327,6 +327,9 @@ struct EditProfileSheet: View {
                 Section("Name") {
                     TextField("First name", text: $draft.firstName)
                     TextField("Last name", text: $draft.lastName)
+                    TextField("Username (e.g. softlysofia)", text: $draft.username)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
                 }
                 Section("Your beauty profile") {
                     TextField("Skin type (e.g. Dry & sensitive)", text: $draft.skinType)

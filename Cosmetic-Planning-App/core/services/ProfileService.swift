@@ -33,6 +33,7 @@ struct ProfileService {
             let id: UUID
             let first_name: String?
             let last_name: String?
+            let username: String?
             let skin_type: String?
             let hair_type: String?
             let top_concern: String?
@@ -50,6 +51,8 @@ struct ProfileService {
             id: session.user.id,
             first_name: clean(draft.firstName),
             last_name: clean(draft.lastName),
+            // "@SoftlySofia " -> "softlysofia"
+            username: clean(draft.username.replacingOccurrences(of: "@", with: "").lowercased()),
             skin_type: clean(draft.skinType),
             hair_type: clean(draft.hairType),
             top_concern: clean(draft.topConcern),
