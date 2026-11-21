@@ -1,6 +1,6 @@
 //
 //  ChangePasswordView.swift
-//  Cosmetic-Planning-App
+//  CURA
 //
 //  Created by Siyu Liu on 11/8/26.
 //
@@ -128,3 +128,4 @@ struct ChangePasswordView: View {
         ChangePasswordView()
     }
 }
+

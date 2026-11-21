@@ -1,6 +1,6 @@
 //
 //  ProfileView.swift
-//  Cosmetic-Planning-App
+//  CURA
 //
 //  Created by Siyu Liu on 10/19/26.
 //
@@ -364,3 +364,4 @@ struct EditProfileSheet: View {
 #Preview {
     ProfileView(onLogout: {})
 }
+
