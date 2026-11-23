@@ -116,9 +116,11 @@ The interface uses custom colors, typography, reusable SwiftUI components, and c
 
 ### Main Features
 
-| Home | Routines | Calendar |
-|---|---|---|
-| ![Home](Docs/Images/Home.png) | ![Routines](Docs/Images/Routines.png) | ![Calendar](Docs/Images/Calendar.png) |
+<p align="center">
+  <img src="Docs/Images/Home.png" width="200">
+  <img src="Docs/Images/Routines.png" width="200">
+  <img src="Docs/Images/Calendar.png" width="200">
+</p>
 
 | Discover | Profile |
 |---|---|---|
