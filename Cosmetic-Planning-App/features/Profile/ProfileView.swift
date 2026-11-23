@@ -39,7 +39,7 @@ struct ProfileView: View {
                     VStack(alignment: .leading, spacing: 4){
                         if let profile = viewModel.profile {
                             Text(profile.fullName).font(.appSerif(21))
-                            Text("Beauty journey since \(profile.memberSince)")
+                            Text("Member since \(profile.memberSince)")
                                 .font(.appSans(9))
                                 .foregroundStyle(AppColor.muted)
                         } else if viewModel.isLoading {
