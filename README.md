@@ -113,7 +113,6 @@ The interface uses custom colors, typography, reusable SwiftUI components, and c
 <p align="center">
   <img src="Docs/Images/Login.png" width="300">
   <img src="Docs/Images/Signup.png" width="300">
-  <img src="Docs/Images/Change-password.png" width="300">
 </p>
 
 ### Main Features
