@@ -193,7 +193,7 @@ struct RoutinesView: View {
     private var createRoutineSheet: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 18) {
-                Text("Add a new routine ✨")
+                Text("Add a new routine ")
                     .font(.appSerif(27))
                     .foregroundStyle(RoutineTheme.ink)
 

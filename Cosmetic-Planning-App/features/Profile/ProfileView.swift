@@ -129,7 +129,7 @@ struct ProfileView: View {
                 BeautyTraitCard(symbol: "drop", tint: AppColor.peach, label: "Skin type", value: viewModel.profile?.skinType)
                 BeautyTraitCard(symbol: "sparkles", tint: AppColor.lilac, label: "Hair type", value: viewModel.profile?.hairType)
                 BeautyTraitCard(symbol: "heart", tint: AppColor.mint, label: "Top concern", value: viewModel.profile?.topConcern)
-                BeautyTraitCard(symbol: "sun.max", tint: AppColor.rose, label: "Beauty style", value: viewModel.profile?.beautyStyle)
+                
             }
             
             SectionHeader(title: "At a glance")
@@ -155,9 +155,7 @@ extension ProfileView {
             SectionHeader(title: "My shelf", action: "Add product") { isAddingProduct = true }
             if viewModel.products.isEmpty {
                 VStack(spacing: 6) {
-                    Image(systemName: "sparkles")
-                        .font(.system(size: 18))
-                        .foregroundStyle(AppColor.accent)
+                    
                     Text("Your shelf is empty")
                         .font(.appSans(11, weight: .semibold))
                         .foregroundStyle(AppColor.ink)
@@ -335,7 +333,7 @@ struct EditProfileSheet: View {
                     TextField("Skin type (e.g. Dry & sensitive)", text: $draft.skinType)
                     TextField("Hair type (e.g. Wavy · 2B)", text: $draft.hairType)
                     TextField("Top concern (e.g. Hydration)", text: $draft.topConcern)
-                    TextField("Beauty style (e.g. Soft & natural)", text: $draft.beautyStyle)
+                    
                 }
             }
             .navigationTitle("Edit Profile")

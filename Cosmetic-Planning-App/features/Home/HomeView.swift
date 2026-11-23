@@ -247,6 +247,7 @@ private struct RoutineHomeCard: View {
                 }
                 .buttonStyle(.plain)
                 .environment(\.isEnabled, true)
+                
 
                 StepsChevron(isExpanded: isExpanded, action: onToggleSteps)
             }
