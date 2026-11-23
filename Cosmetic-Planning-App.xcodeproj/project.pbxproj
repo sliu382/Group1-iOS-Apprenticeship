@@ -8,10 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		DC2F540E308ECBA1005DFFC3 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = DC2F540D308ECBA1005DFFC3 /* Supabase */; };
+		DCA8A01930B21AD900A22B12 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DCA8A01830B21AD800A22B12 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		DC3AD1B230717DC100ED799A /* Cosmetic-Planning-App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cosmetic-Planning-App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCA8A01830B21AD800A22B12 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -60,6 +62,7 @@
 				DC3AD1B430717DC100ED799A /* Cosmetic-Planning-App */,
 				DC2F540C308ECBA1005DFFC3 /* Frameworks */,
 				DC3AD1B330717DC100ED799A /* Products */,
+				DCA8A01830B21AD800A22B12 /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -139,6 +142,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCA8A01930B21AD900A22B12 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,6 +289,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Cosmetic-Planning-App/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = CURA;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -328,6 +333,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Cosmetic-Planning-App/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = CURA;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
