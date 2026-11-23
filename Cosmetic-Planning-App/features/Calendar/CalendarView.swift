@@ -21,7 +21,7 @@ struct CalendarView: View {
             ZStack(alignment: .bottomTrailing) {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(alignment: .leading, spacing: 12) {
-                        header
+                        ScreenHeader(title: viewModel.monthTitle)
 
                         calendarNavigation
 
@@ -84,20 +84,6 @@ struct CalendarView: View {
         }
         .sheet(isPresented: $showsAdd) {
             AddToCalendarSheet(viewModel: viewModel)
-        }
-    }
-
-    // MARK: - Header
-
-    private var header: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text("YOUR BEAUTY RHYTHM")
-                .font(.appSans(9, weight: .semibold))
-                .tracking(2)
-                .foregroundStyle(AppColor.muted)
-                .padding(.top, 8)
-
-            ScreenHeader(title: viewModel.monthTitle)
         }
     }
 

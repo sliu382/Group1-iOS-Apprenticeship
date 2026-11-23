@@ -33,7 +33,7 @@ struct HomeView: View {
                             .padding()
                     } else if viewModel.todayRoutines.isEmpty {
                         homeEmptyCard(
-                            symbol: "sparkles",
+                            symbol: "list.bullet.clipboard",
                             title: "No routines yet",
                             message: "Create a routine to start your beauty journey."
                         )

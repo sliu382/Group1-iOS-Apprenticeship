@@ -8,24 +8,36 @@
 import SwiftUI
 
 struct MainTabView: View {
-    //@State private var isLoggedIn = false //SET THIS TO FALSE LATER
     @Environment(AppState.self) private var appState
     @State private var selectedTab: AppTab = .home
     private let authService = AuthService()
+    
+    
     var body: some View {
         TabView(selection: $selectedTab) {
             HomeView()
                 .tag(AppTab.home)
                 .tabItem{ Label("Home", systemImage: AppTab.home.symbol)}
+                .foregroundStyle(RoutineTheme.ink)
             DiscoverView()
-                .tag(AppTab.home)
+                .tag(AppTab.discover)
                 .tabItem{ Label("Discover", systemImage: AppTab.discover.symbol)}
+                .foregroundStyle(RoutineTheme.ink)
             RoutinesView()
-                .tag(AppTab.home)
-                .tabItem{ Label("Routines", systemImage: AppTab.routines.symbol)}
+                .tag(AppTab.routines)
+                .tabItem{
+                    Label {
+                        Text("Routines")
+                    } icon: {
+                        Image(systemName: AppTab.routines.symbol)
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle(.white, RoutineTheme.ink)
+                    }
+                }
             CalendarView()
-                .tag(AppTab.home)
+                .tag(AppTab.calendar)
                 .tabItem{ Label("Calendar", systemImage: AppTab.calendar.symbol)}
+                .foregroundStyle(RoutineTheme.ink)
             ProfileView(
                 onLogout: {
                     Task{
@@ -35,8 +47,11 @@ struct MainTabView: View {
             )
             .tag(AppTab.profile)
             .tabItem{ Label("Profile", systemImage: AppTab.profile.symbol)}
+            .foregroundStyle(RoutineTheme.ink)
         }
+        .tint(RoutineTheme.rose)
     }
+    
     private func logout() async {
         do {
             try await authService.signOut()

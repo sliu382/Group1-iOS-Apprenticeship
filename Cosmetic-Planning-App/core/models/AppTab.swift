@@ -19,7 +19,7 @@ enum AppTab: String, CaseIterable {
         switch self {
         case .home: "house"
         case .discover: "magnifyingglass"
-        case .routines: "sparkles"
+        case .routines: "list.bullet.clipboard"
         case .calendar: "calendar"
         case .profile: "person"
         }
