@@ -48,3 +48,43 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+## Screenshots
+
+Below are empty placeholders you can replace with your own images. Put your PNG/JPG files in `Docs/Images` and keep the same filenames (or update the paths here).
+
+### Login
+![Login](Docs/Images/login.png)
+
+### Sign Up
+![Sign Up](Docs/Images/signup.png)
+
+### Profile Overview
+![Profile Overview](Docs/Images/profile-overview.png)
+
+### Shelf
+![Shelf](Docs/Images/shelf.png)
+
+### Add to Calendar
+![Add to Calendar](Docs/Images/add-to-calendar.png)
+
+### Change Password
+![Change Password](Docs/Images/change-password.png)
+
+## Demo video
+
+Pick one of the following options and replace the placeholders:
+
+- Local file in repo (simple):
+  [Watch the demo](Docs/Videos/demo.mp4)
+
+- Hosted (YouTube/Vimeo) with a clickable thumbnail:
+  [![Watch the demo](Docs/Images/demo-thumb.png)](https://youtu.be/REPLACE_ME)
+
+- Animated GIF (short loop):
+  ![Demo GIF](Docs/Images/demo.gif)
+
+## Where to put images and video
+
+Create a `Docs` folder with `Images` and `Videos` subfolders. Example:
+
+
