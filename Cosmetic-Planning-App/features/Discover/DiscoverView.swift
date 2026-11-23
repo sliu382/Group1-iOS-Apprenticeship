@@ -16,7 +16,7 @@ struct DiscoverView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 14) {
-                    ScreenHeader(title: "Discover", eyebrow: "The Muse Community", showsAdd: true) {
+                    ScreenHeader(title: "Discover", showsAdd: true) {
                         showsCreatePost = true
                     }
 
