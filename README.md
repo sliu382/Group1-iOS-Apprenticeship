@@ -110,9 +110,11 @@ The interface uses custom colors, typography, reusable SwiftUI components, and c
 
 ### Authentication
 
-| Login | Sign Up | Change Password |
-|---|---|---|
-| ![Login](Docs/Images/login.png) | ![Sign Up](Docs/Images/signup.png) | ![Change Password](Docs/Images/change-password.png) |
+<p align="center">
+  <img src="Docs/Images/Login.png" width="200">
+  <img src="Docs/Images/Signup.png" width="200">
+  <img src="Docs/Images/Change-password.png" width="200">
+</p>
 
 ### Main Features
 
@@ -122,9 +124,10 @@ The interface uses custom colors, typography, reusable SwiftUI components, and c
   <img src="Docs/Images/Calendar.png" width="200">
 </p>
 
-| Discover | Profile |
-|---|---|---|
-| ![Discover](Docs/Images/Discover.png) | ![Profile](Docs/Images/Profile.png)|
+<p align="center">
+  <img src="Docs/Images/Discover.png" width="200">
+  <img src="Docs/Images/Profile.png" width="200">
+</p>
 
 ## Demo Video
 
