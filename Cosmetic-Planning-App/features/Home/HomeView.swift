@@ -226,7 +226,7 @@ private struct RoutineHomeCard: View {
                     HStack(spacing: 14) {
                         Image(systemName: RoutineTheme.symbol(for: routine.name))
                             .font(.system(size: 20))
-                            .foregroundStyle(RoutineTheme.symbolColor(for: routine.name))
+                            .foregroundStyle(RoutineTheme.rose)
                             .frame(width: 50, height: 50)
                             .background(RoutineTheme.symbolBackground(for: routine.name))
                             .clipShape(RoundedRectangle(cornerRadius: 14))
@@ -234,7 +234,7 @@ private struct RoutineHomeCard: View {
                         VStack(alignment: .leading, spacing: 5) {
                             Text(routine.name)
                                 .font(.appSans(14, weight: .semibold))
-                                .foregroundStyle(AppColor.ink)
+                                .foregroundStyle(RoutineTheme.ink)
 
                             Text("View routine steps")
                                 .font(.appSans(11))
@@ -246,6 +246,7 @@ private struct RoutineHomeCard: View {
                     .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
+                .environment(\.isEnabled, true)
 
                 StepsChevron(isExpanded: isExpanded, action: onToggleSteps)
             }
@@ -256,7 +257,7 @@ private struct RoutineHomeCard: View {
             }
         }
         .padding(16)
-        .background(.white.opacity(0.85))
+        .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: 18))
     }
 }
@@ -291,6 +292,7 @@ private struct RoutineReminderHomeCard: View {
                         details
                     }
                     .buttonStyle(.plain)
+                    .environment(\.isEnabled, true)
 
                     StepsChevron(isExpanded: isExpanded, action: onToggleSteps)
                 } else {
@@ -304,7 +306,7 @@ private struct RoutineReminderHomeCard: View {
             }
         }
         .padding(16)
-        .background(.white.opacity(0.85))
+        .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: 18))
     }
 
@@ -448,3 +450,4 @@ private struct AppointmentHomeCard: View {
         HomeView()
     }
 }
+
