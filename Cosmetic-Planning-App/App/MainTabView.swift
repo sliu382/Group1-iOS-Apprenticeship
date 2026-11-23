@@ -6,18 +6,19 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct MainTabView: View {
     @Environment(AppState.self) private var appState
     @State private var selectedTab: AppTab = .home
     private let authService = AuthService()
     
-    
     var body: some View {
         TabView(selection: $selectedTab) {
             HomeView()
                 .tag(AppTab.home)
-                .tabItem{ Label("Home", systemImage: AppTab.home.symbol)}
+                .tabItem{
+                    Label("Home", systemImage: AppTab.home.symbol)}
                 .foregroundStyle(RoutineTheme.ink)
             DiscoverView()
                 .tag(AppTab.discover)
@@ -31,7 +32,7 @@ struct MainTabView: View {
                     } icon: {
                         Image(systemName: AppTab.routines.symbol)
                             .symbolRenderingMode(.palette)
-                            .foregroundStyle(.white, RoutineTheme.ink)
+                            .foregroundStyle(.white, .black)
                     }
                 }
             CalendarView()
@@ -50,6 +51,8 @@ struct MainTabView: View {
             .foregroundStyle(RoutineTheme.ink)
         }
         .tint(RoutineTheme.rose)
+        .toolbarBackground(RoutineTheme.cream, for: .tabBar)
+        .toolbarBackground(.visible, for: .tabBar)
     }
     
     private func logout() async {
