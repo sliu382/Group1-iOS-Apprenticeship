@@ -118,11 +118,11 @@ The interface uses custom colors, typography, reusable SwiftUI components, and c
 
 | Home | Routines | Calendar |
 |---|---|---|
-| ![Home](Docs/Images/home.png) | ![Routines](Docs/Images/routines.png) | ![Calendar](Docs/Images/calendar.png) |
+| ![Home](Docs/Images/Home.png) | ![Routines](Docs/Images/Routines.png) | ![Calendar](Docs/Images/Calendar.png) |
 
-| Discover | Profile | Product Shelf |
+| Discover | Profile |
 |---|---|---|
-| ![Discover](Docs/Images/discover.png) | ![Profile](Docs/Images/profile.png) | ![Product Shelf](Docs/Images/shelf.png) |
+| ![Discover](Docs/Images/Discover.png) | ![Profile](Docs/Images/Profile.png)|
 
 ## Demo Video
 
