@@ -137,6 +137,18 @@ final class CalendarViewModel {
 
     // MARK: - Appointments
 
+    /// Appointments on the selected day (repeating ones included), by time.
+    var selectedDayAppointments: [Appointment] {
+        appointmentService.appointments
+            .compactMap { $0.occurrence(on: selectedDate, calendar: calendar) }
+            .sorted { $0.date < $1.date }
+    }
+
+    /// Set when appointments couldn't be loaded from Supabase.
+    var appointmentError: String? {
+        appointmentService.errorMessage
+    }
+
     /// Saves to Supabase; AppointmentService refreshes its list, so the
     /// calendar and Home update on their own.
     func addAppointment(_ appointment: Appointment) async throws {
@@ -179,9 +191,9 @@ final class CalendarViewModel {
 
     var remindersTitle: String {
         if calendar.isDateInToday(selectedDate) {
-            return "Today’s Reminders"
+            return "Today’s Schedule"
         }
-        return "\(selectedDate.formatted(.dateTime.month(.abbreviated).day()))’s Reminders"
+        return "\(selectedDate.formatted(.dateTime.month(.abbreviated).day()))’s Schedule"
     }
 
     // MARK: - Grids

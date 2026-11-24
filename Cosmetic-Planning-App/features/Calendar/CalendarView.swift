@@ -137,6 +137,7 @@ struct CalendarView: View {
 
     private var remindersSection: some View {
         let reminders = viewModel.selectedDayReminders
+        let appointments = viewModel.selectedDayAppointments
 
         return VStack(alignment: .leading, spacing: 14) {
             HStack(alignment: .center, spacing: 12) {
@@ -148,8 +149,14 @@ struct CalendarView: View {
                 Spacer(minLength: 0)
             }
 
-            if reminders.isEmpty {
-                Text("No reminders for this day. Tap + to add one.")
+            if let error = viewModel.appointmentError {
+                Text("Couldn't load appointments: \(error)")
+                    .font(.appSans(10))
+                    .foregroundStyle(.red)
+            }
+
+            if reminders.isEmpty && appointments.isEmpty {
+                Text("Nothing scheduled for this day. Tap + to add one.")
                     .font(.appSans(11))
                     .foregroundStyle(AppColor.muted)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -158,6 +165,15 @@ struct CalendarView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 14))
             } else {
                 VStack(spacing: 0) {
+                    ForEach(appointments) { appointment in
+                        appointmentRow(appointment)
+
+                        if appointment.id != appointments.last?.id || !reminders.isEmpty {
+                            Divider()
+                                .overlay(AppColor.line)
+                        }
+                    }
+
                     ForEach(reminders) { reminder in
                         reminderRow(reminder)
 
@@ -173,6 +189,44 @@ struct CalendarView: View {
         }
         .padding(.top, 8)
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func appointmentRow(_ appointment: Appointment) -> some View {
+        HStack(spacing: 12) {
+            Image(systemName: "calendar")
+                .font(.system(size: 15))
+                .foregroundStyle(CalendarEventTint.rose.text)
+                .frame(width: 20, height: 20)
+
+            VStack(alignment: .leading, spacing: 5) {
+                Text(appointment.title)
+                    .font(.appSans(12, weight: .medium))
+                    .foregroundStyle(AppColor.ink)
+                    .strikethrough(appointment.isComplete)
+
+                HStack(spacing: 4) {
+                    if appointment.recurrence != nil {
+                        Image(systemName: "repeat")
+                            .font(.system(size: 9, weight: .semibold))
+                    }
+
+                    Text(appointmentDetail(appointment))
+                        .font(.appSans(10))
+                }
+                .foregroundStyle(AppColor.muted)
+            }
+
+            Spacer(minLength: 0)
+        }
+        .padding(16)
+    }
+
+    /// "10:00 – 11:00 AM · Glow Studio"
+    private func appointmentDetail(_ appointment: Appointment) -> String {
+        guard let location = appointment.location, !location.isEmpty else {
+            return appointment.timeText
+        }
+        return "\(appointment.timeText) · \(location)"
     }
 
     private func reminderRow(_ reminder: RoutineReminder) -> some View {
@@ -483,7 +537,6 @@ private struct EventBar: View {
                 event.tint.fill,
                 in: RoundedRectangle(cornerRadius: 4, style: .continuous)
             )
-            .opacity(event.isComplete ? 0.55 : 1)
     }
 }
 
@@ -647,7 +700,6 @@ private struct DayCalendar: View {
                                     event.tint.fill,
                                     in: RoundedRectangle(cornerRadius: 8, style: .continuous)
                                 )
-                                .opacity(event.isComplete ? 0.6 : 1)
                         }
                     }
                     .padding(.top, 2)
@@ -764,7 +816,6 @@ private struct EventBlock: View {
         .overlay {
             shape.stroke(event.tint.text.opacity(0.18), lineWidth: 1)
         }
-        .opacity(event.isComplete ? 0.6 : 1)
         .accessibilityElement(children: .combine)
     }
 }
