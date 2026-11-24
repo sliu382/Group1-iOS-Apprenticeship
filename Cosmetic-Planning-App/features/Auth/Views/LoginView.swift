@@ -41,28 +41,23 @@ struct LoginView: View {
     
     // MARK: - TitleSection View
     private var titleSection: some View {
-        VStack(spacing: 12) {
-            Image(systemName: "sparkles")
-                .font(.system(size: 25))
-                .foregroundStyle(Color(hex: 0x815C70))
-                .frame(width: 54, height: 54)
-                .background(.white.opacity(0.62))
-                .clipShape(
-                    RoundedRectangle(
-                        cornerRadius: 18,
-                        style: .continuous
-                    )
-                )
-                .shadow(
-                    color: AppColor.accent.opacity(0.12),
-                    radius: 20,
-                    y: 10
-                )
+        HStack(spacing: 12) {
+            
 
             Text("CURA")
                 .font(.appSerif( 45))
                 .tracking(5)
                 .foregroundStyle(AppColor.ink)
+            Image("Pink_Icon")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 54, height: 54)
+                            .clipShape(
+                                RoundedRectangle(
+                                    cornerRadius: 40,
+                                    style: .continuous
+                                )
+                            )
         }
         .padding(.top, 45)
         .padding(.bottom, 45)

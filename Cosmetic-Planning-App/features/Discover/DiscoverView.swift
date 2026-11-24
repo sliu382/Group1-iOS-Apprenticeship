@@ -129,7 +129,7 @@ struct DiscoverView: View {
             ProgressView().padding(.top, 40)
         } else if posts.isEmpty {
             VStack(spacing: 6) {
-                Image(systemName: "sparkles")
+                Image(systemName: "magnifyingglass")
                     .font(.system(size: 18))
                     .foregroundStyle(AppColor.accent)
                 Text(viewModel.posts.isEmpty ? "No posts yet" : "Nothing matches")
