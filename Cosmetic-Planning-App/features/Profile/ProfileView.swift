@@ -29,12 +29,7 @@ struct ProfileView: View {
                             .frame(width: 62, height: 62)
                             .background(Color(hex: 0xA57A8E))
                             .clipShape(Circle())
-                        Image(systemName: "sparkles")
-                            .font(.system(size: 11))
-                            .foregroundStyle(Color(hex: 0x9A7185))
-                            .frame(width: 23, height: 23)
-                            .background(.white)
-                            .clipShape(Circle())
+                        
                     }
                     VStack(alignment: .leading, spacing: 4){
                         if let profile = viewModel.profile {

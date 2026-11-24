@@ -87,7 +87,7 @@ struct RoutineDetailView: View {
                 Button {
                     showsAddStep = true
                 } label: {
-                    Label("Add another little step", systemImage: "plus.circle.fill")
+                    Label("Add another step", systemImage: "plus.circle.fill")
                         .font(.appSans(13, weight: .semibold))
                         .foregroundStyle(RoutineTheme.rose)
                         .frame(maxWidth: .infinity)
@@ -108,13 +108,7 @@ struct RoutineDetailView: View {
         .background(RoutineTheme.cream.ignoresSafeArea())
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.visible, for: .navigationBar)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                Text("Your ritual ✨")
-                    .font(.appSerif(18))
-                    .foregroundStyle(RoutineTheme.ink)
-            }
-        }
+      
         .tint(RoutineTheme.rose)
         .task(id: routine.id) {
             await loadSteps()
@@ -155,7 +149,7 @@ struct RoutineDetailView: View {
                 .background(RoutineTheme.paper.opacity(0.8), in: RoundedRectangle(cornerRadius: 19))
             
             VStack(alignment: .leading, spacing: 6) {
-                Text("YOUR SELF-CARE RITUAL")
+                Text("YOUR ROUTINE")
                     .font(.appSans(9, weight: .semibold))
                     .tracking(1.1)
                     .foregroundStyle(RoutineTheme.rose)
@@ -164,9 +158,7 @@ struct RoutineDetailView: View {
                     .font(.appSerif(26))
                     .foregroundStyle(RoutineTheme.ink)
                 
-                Text("One lovely step at a time ♡")
-                    .font(.appSans(11))
-                    .foregroundStyle(RoutineTheme.muted)
+                
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -285,7 +277,7 @@ private struct AddRoutineStepSheet: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 15) {
-                    Text("Add a little step ✨")
+                    Text("Add a step")
                         .font(.appSerif(27))
                         .foregroundStyle(RoutineTheme.ink)
 
@@ -300,7 +292,7 @@ private struct AddRoutineStepSheet: View {
                         .background(RoutineTheme.paper, in: RoundedRectangle(cornerRadius: 14))
 
                     fieldLabel("ITEM / PRODUCT (OPTIONAL)")
-                    TextField("e.g. CeraVe Hydrating Cleanser", text: $itemName)
+                    TextField("e.g. Hydrating Cleanser", text: $itemName)
                         .font(.appSans(13))
                         .padding(14)
                         .background(RoutineTheme.paper, in: RoundedRectangle(cornerRadius: 14))

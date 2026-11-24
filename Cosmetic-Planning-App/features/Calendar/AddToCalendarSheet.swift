@@ -71,9 +71,8 @@ struct AddToCalendarSheet: View {
                 .padding(.bottom, 18)
 
             optionRow(
-                symbol: "sun.max",
-                title: "Routine reminder",
-                subtitle: "A nudge to do one of your routines"
+                symbol: "bell.fill",
+                title: "Routine reminder"
             ) {
                 pick(.routineReminder)
             }
@@ -81,9 +80,9 @@ struct AddToCalendarSheet: View {
             Divider().overlay(AppColor.line)
 
             optionRow(
-                symbol: "sparkles",
+                symbol: "calendar",
                 title: "Appointment",
-                subtitle: "Hair, nails, facials and more"
+           
             ) {
                 pick(.appointment)
             }
@@ -97,7 +96,7 @@ struct AddToCalendarSheet: View {
     private func optionRow(
         symbol: String,
         title: String,
-        subtitle: String,
+   
         action: @escaping () -> Void
     ) -> some View {
         Button(action: action) {
@@ -113,9 +112,7 @@ struct AddToCalendarSheet: View {
                         .font(.appSans(13, weight: .semibold))
                         .foregroundStyle(AppColor.ink)
 
-                    Text(subtitle)
-                        .font(.appSans(10))
-                        .foregroundStyle(AppColor.muted)
+                   
                 }
 
                 Spacer()
