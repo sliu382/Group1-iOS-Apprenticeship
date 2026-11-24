@@ -132,7 +132,7 @@ The interface uses custom colors, typography, reusable SwiftUI components, and c
 
 *A walkthrough demonstrating CURA's main features will be added here.*
 
-[Watch the CURA Demo](Docs/Videos/demo.mp4)
+[Watch the CURA Demo](Docs/Videos/CURA-demo.mov)
 
 ## Getting Started
 
