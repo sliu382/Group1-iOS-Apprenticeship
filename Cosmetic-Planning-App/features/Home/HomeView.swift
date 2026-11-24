@@ -14,6 +14,12 @@ struct HomeView: View {
     @State private var expandedCards: Set<UUID> = []
 
     var body: some View {
+        NavigationStack {
+            dashboardContent
+        }
+    }
+
+    private var dashboardContent: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
 
@@ -246,7 +252,6 @@ private struct RoutineHomeCard: View {
                     .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
-                .environment(\.isEnabled, true)
                 
 
                 StepsChevron(isExpanded: isExpanded, action: onToggleSteps)
@@ -293,7 +298,6 @@ private struct RoutineReminderHomeCard: View {
                         details
                     }
                     .buttonStyle(.plain)
-                    .environment(\.isEnabled, true)
 
                     StepsChevron(isExpanded: isExpanded, action: onToggleSteps)
                 } else {
@@ -447,8 +451,6 @@ private struct AppointmentHomeCard: View {
 }
 
 #Preview {
-    NavigationStack {
-        HomeView()
-    }
+    HomeView()
 }
 
