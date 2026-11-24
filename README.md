@@ -118,7 +118,7 @@ The interface uses custom colors, typography, reusable SwiftUI components, and c
 ### Main Features
 
 <p align="center">
-  <img src="Docs/Images/Home.png" width="300">
+  <img src="Docs/Images/Home.png" width="250">
   <img src="Docs/Images/Routines.png" width="250">
   <img src="Docs/Images/Calendar.png" width="250">
 </p>
