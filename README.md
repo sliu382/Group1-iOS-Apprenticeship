@@ -153,7 +153,12 @@ The interface uses custom colors, typography, reusable SwiftUI components, and c
 2. Open `Cosmetic-Planning-App.xcodeproj` in Xcode.
 3. Allow Xcode to resolve the project's Swift Package dependencies.
 4. Configure the Supabase connection using `Secrets.example.xcconfig` as a reference. The app expects `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` to be available through its configuration.
-5. Set up the required Supabase database tables, storage bucket, authentication settings, and access policies. The `supabase/` directory contains SQL files for several database features.
+5. Set up the Supabase database by running the files in `supabase/` in the SQL Editor, in this order:
+   1. `profiles.sql`, then `profiles_add_beauty_fields.sql`
+   2. `routines.sql`, then `routine_steps.sql`
+   3. `appointments.sql` (already includes the columns from the two `appointments_add_*.sql` files, which are only needed for older databases)
+   4. `products.sql` (also creates the `product-images` storage bucket)
+   5. `discover_posts.sql` (depends on profiles, routines and routine steps)
 6. Select an iOS simulator or connected device and run the application.
 
 **Note:** The repository does not include a fully automated Supabase setup. A compatible backend must be configured for cloud-backed features to function.
